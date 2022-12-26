@@ -13,7 +13,7 @@ const Tcategory = sequelize.define("Tcategory", {
     allowNull: false,
     validate: {
       notNull: {
-        msg: "Please enter Tcategory name",
+        msg: "Please enter name",
       },
     },
   },

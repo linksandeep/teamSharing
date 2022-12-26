@@ -22,7 +22,7 @@ const Tpriority = sequelize.define("Tpriority", {
     allowNull: false,
     validate: {
       notNull: {
-        msg: "Please enter Tpriority name",
+        msg: "Please enter Tpriority color",
       },
     },
   },

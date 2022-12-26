@@ -13,7 +13,7 @@ const Ticket = sequelize.define("Ticket", {
     allowNull: false,
     validate: {
       notNull: {
-        msg: "Please enter TicketStatus name",
+        msg: "Please enter Ticket title",
       },
     },
   },
@@ -25,7 +25,7 @@ const Ticket = sequelize.define("Ticket", {
     allowNull: false,
     validate: {
       notNull: {
-        msg: "Please enter TicketStatus name",
+        msg: "Please enter CreatedBy id",
       },
     },
   },
@@ -34,7 +34,7 @@ const Ticket = sequelize.define("Ticket", {
     allowNull: false,
     validate: {
       notNull: {
-        msg: "Please enter TicketStatus name",
+        msg: "Please enter AssignedTo",
       },
     },
   },

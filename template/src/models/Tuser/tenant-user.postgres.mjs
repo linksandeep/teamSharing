@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../services/postgres.mjs";
 
-const tUser = sequelize.define("tUser", {
+const Tuser = sequelize.define("Tuser", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -24,4 +24,4 @@ const tUser = sequelize.define("tUser", {
   },
 });
 
-export default tUser;
+export default Tuser;
