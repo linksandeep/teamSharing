@@ -10,17 +10,9 @@ const findAllTcategories = async (transaction) => {
   return await Tcategory.findAll({ transaction });
 };
 
-const updateTcategories = async (categoryId, data, transaction) => {
-  return await Tcategory.update(
-        data,
-        {
-          where: {
-            id: categoryId,
-          },
-        },
-        { transaction }
-      );
-    };
+const findOneTcategories = async (categoryId,transaction) => {
+     return await Tcategory.findOne({ where: { id:categoryId } })
+   }
 
 const deleteTcategories = async (categoryId, transaction) => {
    
@@ -30,4 +22,4 @@ const deleteTcategories = async (categoryId, transaction) => {
     },
   });
 };
-export { createTcategories, findAllTcategories,deleteTcategories ,updateTcategories};
+export { createTcategories, findAllTcategories,deleteTcategories ,findOneTcategories};

@@ -1,20 +1,21 @@
-import ticket from "./ticket.postgres.mjs";
+import Ticket from "./ticket.postgres.mjs";
+import tComment from "./ticket-comment.postgres.mjs";
 
 const createTicket = async (data, transaction) => {
-  return await ticket.create(data, { transaction });
+  return await Ticket.create(data, { transaction });
 };
 
 const findAllTicket = async (obj, transaction) => {
-  console.log(obj, "<<<<<<>>>>>>>>>>>>>>>>>>>>>>>.....>>>>>>>>>");
+  // console.log(obj, "<<<<<<>>>>>>>>>>>>>>>>>>>>>>>.....>>>>>>>>>");
   if (obj) {
-    const data = await ticket.findAll({ where:  obj, transaction  });
+    const data = await Ticket.findAll({ where:  obj, transaction  });
     return data;
   }
   return await Tstatus.findAll({ transaction });
 };
 
 const updateTicket = async (ticketId, data, transaction) => {
-  let findData = await ticket.findOne({ where: { id: ticketId } }, transaction);
+  let findData = await Ticket.findOne({ where: { id: ticketId } }, transaction);
   if (findData) {
     if ("title" in data) {
       findData.title = data.title;
@@ -41,27 +42,21 @@ const updateTicket = async (ticketId, data, transaction) => {
 
 const deleteTicket = async (ticketId, transaction) => {
   // console.log(ticketId)
-  await ticket.destroy({
+  await Ticket.destroy({
     where: {
       id: ticketId,
     },
   });
 };
 
-// const getTicketByCustomerId = async (customerId, transaction) => {
-//  return await ticket.findAll({
-//   where: {
-//     createdBy:customerId
-//   }
-// });
-// };
+const findTicketByTicketId = async (ticketId, transaction) => {
+ return await Ticket.findByPk(ticketId,{transaction});
+}
+const getTicketByTicketIdAndCommentID = async (ticketId,transaction) => {
+  return await tComment.findAll({
+    where: {ticketId: ticketId },transaction
+  });
+}
+  
 
-// const getTicketByAgentId = async (agentId, transaction) => {
-//   return await ticket.findAll({
-//    where: {
-//      assignedTo:agentId
-//    }
-//  });
-//  };
-
-export { createTicket, findAllTicket, updateTicket, deleteTicket };
+export { createTicket, findAllTicket, updateTicket, deleteTicket,findTicketByTicketId,getTicketByTicketIdAndCommentID};

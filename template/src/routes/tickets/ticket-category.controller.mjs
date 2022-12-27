@@ -1,4 +1,4 @@
-import { createTcategories ,findAllTcategories,updateTcategories,deleteTcategories } from "../../models/tickets/ticket-category.model.mjs";
+import { createTcategories ,findAllTcategories,findOneTcategories,deleteTcategories } from "../../models/tickets/ticket-category.model.mjs";
 import { sequelize } from "../../services/postgres.mjs";
 
 const addTicketCategories = async (req, res, next) => {
@@ -52,13 +52,18 @@ const addTicketCategories = async (req, res, next) => {
     try {
         const {categoryId}=req.params
         const bodyData = req.body;
-      const ticketCategory = await updateTcategories(categoryId,bodyData,t);
+      const ticketCategory = await findOneTcategories(categoryId,t);
+      if(!ticketCategory){ return res.status(404).send({msg:"Data not found with given Id"})}
+      if ("name" in bodyData) {
+        ticketCategory.name = bodyData.name;
+      }
+      await ticketCategory.save({ transaction: t });
       await t.commit();
 
       res.status(200).json({
         status: "success",
         data: {
-          ticketCategory,
+         msg:"updated sucessfully",
         },
       });
     } catch (err) {

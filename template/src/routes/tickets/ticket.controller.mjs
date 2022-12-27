@@ -3,6 +3,8 @@ import {
   findAllTicket,
   updateTicket,
   deleteTicket,
+  findTicketByTicketId,
+ getTicketByTicketIdAndCommentID
 } from "../../models/tickets/ticket.model.mjs";
 import { sequelize } from "../../services/postgres.mjs";
 
@@ -32,7 +34,7 @@ const addTicket = async (req, res, next) => {
 const getTicket = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    const {customerId,agentId } = req.query
+    const {customerId,agentId} = req.query
     let obj = {}
 
     //console.log(obj,"<<<<<<>>>>>>>>>>>>>>>>>>>>>>>.....>>>>>>>>>111111111")
@@ -58,51 +60,53 @@ const getTicket = async (req, res, next) => {
   }
 };
 
-// const getByCustomerId = async (req, res, next) => {
-//   const t = await sequelize.transaction();
-//   try {
-//     const { customerId } = req.params;
-//     const ticket = await getTicketByCustomerId(customerId, t);
-//     await t.commit();
-//     res.status(201).json({
-//       status: "success",
-//       length: ticket.length,
-//       data: {
-//         ticket,
-//       },
-//     });
-//   } catch (err) {
-//     await t.rollback();
-//     console.log("getting error...");
-//     console.error(err);
-//     res.status(400).json({
-//       error: err,
-//     });
-//   }
-// };
+const getTicketById = async (req, res, next) => {
+  const t = await sequelize.transaction();
+  try {
+    //console.log("////////////////////////////\\\\\\\\\\\\\\\\\\\,,,,,,,,,,,....,,<><><><><",ticketId)
+    const ticketId = req.params.ticketId
+    //console.log("////////////////////////////\\\\\\\\\\\\\\\\\\\,,,,,,,,,,,....,,<><><><><",ticketId)
+    const ticket = await findTicketByTicketId(ticketId, t);
+    if(!ticket) return res.status(404).send({msg:"No data found"})
+    await t.commit();
+    res.status(200).send({
+      status: "success",
+      data: {
+        ticket,
+      },
+    });
+  } catch (err) {
+    await t.rollback();
+    console.log("getting error...");
+    console.error(err);
+    res.status(400).json({
+      error: err,
+    });
+  }
+};
 
-// const getByAgentId = async (req, res, next) => {
-//   const t = await sequelize.transaction();
-//   try {
-//     const { agentId } = req.params;
-//     const ticket = await getTicketByAgentId(agentId, t);
-//     await t.commit();
-//     res.status(201).json({
-//       status: "success",
-//       length: ticket.length,
-//       data: {
-//         ticket,
-//       },
-//     });
-//   } catch (err) {
-//     await t.rollback();
-//     console.log("getting error...");
-//     console.error(err);
-//     res.status(400).json({
-//       error: err,
-//     });
-//   }
-// };
+const getByTicketAndComment = async (req, res, next) => {
+  const t = await sequelize.transaction();
+  try {
+    const ticketId = req.params.ticketId
+    const ticket = await getTicketByTicketIdAndCommentID(ticketId,t);
+    await t.commit();
+    res.status(200).json({
+      status: "success",
+      length: ticket.length,
+      data: {
+        ticket,
+      },
+    });
+  } catch (err) {
+    await t.rollback();
+    console.log("getting error...");
+    console.error(err);
+    res.status(400).json({
+      error: err,
+    });
+  }
+};
 
 const editTicket = async (req, res, next) => {
   const t = await sequelize.transaction();
@@ -152,4 +156,4 @@ const destroyTicket = async (req, res, next) => {
   }
 };
 
-export { addTicket, getTicket, editTicket, destroyTicket };
+export { addTicket, getTicket, editTicket, destroyTicket ,getTicketById,getByTicketAndComment};

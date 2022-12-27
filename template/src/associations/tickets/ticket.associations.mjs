@@ -4,6 +4,7 @@ import Tcategory from "../../models/tickets/ticket-category.postgres.mjs";
 import Tpriority from "../../models/tickets/ticket-priority.postgres.mjs";
 import Customer from "../../models/customer/customer.postgres.mjs";
 import Tuser from "../../models/Tuser/tenant-user.postgres.mjs";
+import tComment from "../../models/tickets/ticket-comment.postgres.mjs";
 
 
 // One-To-Many
@@ -53,5 +54,23 @@ Tstatus.hasMany(Ticket, {
   });
   Ticket.belongsTo(Tpriority,{
     foreignKey:"priorityId",
+    targetKey:"id"
+  })
+
+  // tComment.hasOne(Ticket,{
+  //   foreignKey:"ticketId",
+  //   targetKey:"id"
+  // })
+  // Ticket.belongsTo(tComment,{
+  //   foreignKey:"ticketId",
+  //   targetKey:"id"
+  // })
+
+  Ticket.hasMany(tComment,{
+    foreignKey:"ticketId",
+    targetKey:"id"
+  })
+  tComment.belongsTo(Ticket,{
+    foreignKey:"ticketId",
     targetKey:"id"
   })
