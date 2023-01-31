@@ -60,7 +60,7 @@ const updateTicketStatus = async (req, res, next) => {
     const tStatus = await findOneTstatus(statusId, t);
 
     if (!tStatus) {
-      return res.status(404).send({ msg: "Data not found with given Id" });
+      return res.status(404).send({ msg: "no data found" });
     }
 
     if ("name" in bodyData) {
@@ -75,7 +75,7 @@ const updateTicketStatus = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       data: {
-        msg:"Updated suc...."
+        msg: "data updated",
       },
     });
   } catch (err) {

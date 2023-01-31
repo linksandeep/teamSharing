@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../../services/postgres.mjs";
 
-const uStatus= sequelize.define("uStatus", {
+const uStatus = sequelize.define("uStatus", {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -17,7 +17,7 @@ const uStatus= sequelize.define("uStatus", {
       },
     },
   },
-  color: DataTypes.STRING(20)
+  color: DataTypes.STRING(20),
 });
 
 export default uStatus;

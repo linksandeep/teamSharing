@@ -16,7 +16,7 @@ const findAllTicket = async (obj, transaction) => {
 
 const updateTicket = async (ticketId, data, transaction) => {
   let findData = await Ticket.findOne({ where: { id: ticketId } }, transaction);
-  if (findData) {
+  if (!findData) return findData
     if ("title" in data) {
       findData.title = data.title;
     }
@@ -35,13 +35,10 @@ const updateTicket = async (ticketId, data, transaction) => {
     if ("assignedTo" in data) {
       findData.assignedTo = data.assignedTo;
     }
-    return findData;
-  }
-  return false;
+    return findData
 };
 
 const deleteTicket = async (ticketId, transaction) => {
-  // console.log(ticketId)
   await Ticket.destroy({
     where: {
       id: ticketId,

@@ -1,4 +1,7 @@
-import { createTcomment, findAllTcomment} from "../../models/tickets/ticket-comment.model.mjs";
+import {
+  createTcomment,
+  findAllTcomment,
+} from "../../models/tickets/ticket-comment.model.mjs";
 import { sequelize } from "../../services/postgres.mjs";
 
 const addTicketComment = async (req, res, next) => {
@@ -29,8 +32,10 @@ const getTicketComment = async (req, res, next) => {
   try {
     const { ticketId } = req.params;
     const ticketComment = await findAllTcomment(ticketId, t);
+    if (!ticketComment.length)
+      return res.status(404).json({ msg: "no data found" });
     await t.commit();
-    res.status(200).json({
+    return res.status(200).json({
       status: "success",
       length: ticketComment.length,
       data: {
@@ -46,31 +51,6 @@ const getTicketComment = async (req, res, next) => {
     });
   }
 };
-
-//   const updateTicketComment = async (req, res, next) => {
-//     const t = await sequelize.transaction();
-//     try {
-//         const {ticketId}=req.params
-//         const bodyData = req.body;
-//     await updateTcomment(ticketId,bodyData,t);
-
-//       await t.commit();
-
-//       res.status(200).json({
-//         status: "success",
-//         data: {
-//           msg: "data updated",
-//         },
-//       });
-//     } catch (err) {
-//       await t.rollback();
-//       console.log("getting error...");
-//       console.error(err);
-//       res.status(400).json({
-//         error: err,
-//       });
-//     }
-//   };
 
 // const deleteTicketComment = async (req, res, next) => {
 //   const t = await sequelize.transaction();

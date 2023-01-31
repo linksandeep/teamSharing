@@ -7,7 +7,7 @@ const organisation = sequelize.define("organisation", {
     defaultValue: DataTypes.UUIDV4,
     primaryKey: true,
     allowNull: false,
-  }
+  },
 });
 
 export default organisation;

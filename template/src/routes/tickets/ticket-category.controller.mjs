@@ -53,7 +53,7 @@ const addTicketCategories = async (req, res, next) => {
         const {categoryId}=req.params
         const bodyData = req.body;
       const ticketCategory = await findOneTcategories(categoryId,t);
-      if(!ticketCategory){ return res.status(404).send({msg:"Data not found with given Id"})}
+      if(!ticketCategory){ return res.status(404).send({msg:"no data found"})}
       if ("name" in bodyData) {
         ticketCategory.name = bodyData.name;
       }

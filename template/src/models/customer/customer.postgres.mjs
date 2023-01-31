@@ -14,8 +14,7 @@ const Customer = sequelize.define("Customer", {
   email: DataTypes.STRING(30),
   db: DataTypes.STRING(20),
   address: DataTypes.STRING(200),
-  status:DataTypes.UUID,
-   
+  status: DataTypes.UUID,
 });
 
 export default Customer;

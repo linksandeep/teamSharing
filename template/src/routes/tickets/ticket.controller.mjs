@@ -4,7 +4,7 @@ import {
   updateTicket,
   deleteTicket,
   findTicketByTicketId,
- getTicketByTicketIdAndCommentID
+  getTicketByTicketIdAndCommentID,
 } from "../../models/tickets/ticket.model.mjs";
 import { sequelize } from "../../services/postgres.mjs";
 
@@ -34,14 +34,12 @@ const addTicket = async (req, res, next) => {
 const getTicket = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    const {customerId,agentId} = req.query
-    let obj = {}
-
-    //console.log(obj,"<<<<<<>>>>>>>>>>>>>>>>>>>>>>>.....>>>>>>>>>111111111")
-    if (customerId) obj.createdBy=customerId
-    if (agentId) obj.assignedTo =agentId;
+    const { customerId, agentId } = req.query;
+    let obj = {};
+    if (customerId) obj.createdBy = customerId;
+    if (agentId) obj.assignedTo = agentId;
     const ticket = await findAllTicket(obj, t);
-    if(!ticket) res.status(404).send({msg:"no data found"})
+    if (!ticket) res.status(404).send({ msg: "no data found" });
     await t.commit();
     res.status(200).json({
       status: "success",
@@ -63,11 +61,9 @@ const getTicket = async (req, res, next) => {
 const getTicketById = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    //console.log("////////////////////////////\\\\\\\\\\\\\\\\\\\,,,,,,,,,,,....,,<><><><><",ticketId)
-    const ticketId = req.params.ticketId
-    //console.log("////////////////////////////\\\\\\\\\\\\\\\\\\\,,,,,,,,,,,....,,<><><><><",ticketId)
+    const ticketId = req.params.ticketId;
     const ticket = await findTicketByTicketId(ticketId, t);
-    if(!ticket) return res.status(404).send({msg:"No data found"})
+    if (!ticket) return res.status(404).send({ msg: "No data found" });
     await t.commit();
     res.status(200).send({
       status: "success",
@@ -88,8 +84,8 @@ const getTicketById = async (req, res, next) => {
 const getByTicketAndComment = async (req, res, next) => {
   const t = await sequelize.transaction();
   try {
-    const ticketId = req.params.ticketId
-    const ticket = await getTicketByTicketIdAndCommentID(ticketId,t);
+    const ticketId = req.params.ticketId;
+    const ticket = await getTicketByTicketIdAndCommentID(ticketId, t);
     await t.commit();
     res.status(200).json({
       status: "success",
@@ -114,16 +110,13 @@ const editTicket = async (req, res, next) => {
     const { ticketId } = req.params;
     const bodyData = req.body;
     const updatedTicket = await updateTicket(ticketId, bodyData, t);
-    if (!updatedTicket)
-      return res.status(404).send({ msg: "No data found with given id" });
+    if (!updatedTicket) return res.status(404).send({ msg: "No data found" });
     await updatedTicket.save({ transaction: t });
-    console.log(updateTicket);
     await t.commit();
-
     res.status(200).json({
       status: "success",
       data: {
-        msg: "Updated",
+        msg: "data updated",
       },
     });
   } catch (err) {
@@ -142,7 +135,6 @@ const destroyTicket = async (req, res, next) => {
     const { ticketId } = req.params;
     await deleteTicket(ticketId, t);
     await t.commit();
-
     res.status(204).json({
       status: "success",
     });
@@ -156,4 +148,11 @@ const destroyTicket = async (req, res, next) => {
   }
 };
 
-export { addTicket, getTicket, editTicket, destroyTicket ,getTicketById,getByTicketAndComment};
+export {
+  addTicket,
+  getTicket,
+  editTicket,
+  destroyTicket,
+  getTicketById,
+  getByTicketAndComment,
+};
