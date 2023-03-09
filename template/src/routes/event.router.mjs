@@ -39,8 +39,8 @@ router.post("/events", async (req, res) => {
   if (code) {
     try {
       const { tokens } = await oauth2Client.getToken(code);
-      console.log("Access token:", tokens.access_token);
-      console.log("Refresh token:", tokens.refresh_token);
+      console.log("Access token:----->", tokens.access_token);
+      console.log("Refresh token:------>", tokens.refresh_token);
       
       oauth2Client.setCredentials(tokens);
 
@@ -100,6 +100,7 @@ router.get("/oauthcallback", async (req, res) => {
 
   try {
     const { tokens } = await oauth2Client.getToken(code);
+    console.log("-------",tokens,"----------------------")
     console.log("Access token:", tokens.access_token);
     console.log("Refresh token:", tokens.refresh_token);
     oauth2Client.setCredentials(tokens);
